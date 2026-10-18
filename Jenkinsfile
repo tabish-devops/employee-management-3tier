@@ -2,6 +2,12 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_USER = 'mullani'
+        FRONTEND_IMAGE = 'mullani/employee-management-frontend'
+        BACKEND_IMAGE  = 'mullani/employee-management-backend'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -47,16 +53,37 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh '''
-                    docker build -t employee-frontend:latest ./frontend
-                    docker build -t employee-backend:latest ./backend
+                    docker build -t $FRONTEND_IMAGE:latest ./frontend
+                    docker build -t $BACKEND_IMAGE:latest ./backend
                 '''
+            }
+        }
+
+        stage('Push Images to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DH_USER',
+                    passwordVariable: 'DH_TOKEN'
+                )]) {
+                    sh '''
+                        set +x
+                        echo "$DH_TOKEN" | docker login \
+                            -u "$DH_USER" --password-stdin
+
+                        docker push $FRONTEND_IMAGE:latest
+                        docker push $BACKEND_IMAGE:latest
+
+                        docker logout
+                    '''
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'CI pipeline completed successfully!'
+            echo 'CI pipeline and Docker Hub push completed successfully!'
         }
 
         failure {
