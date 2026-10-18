@@ -80,7 +80,7 @@ pipeline {
             }
         }
 
-        stage('Test EC2 SSH') {
+        stage('Deploy to EC2') {
             steps {
                 withCredentials([
                     sshUserPrivateKey(
@@ -92,9 +92,14 @@ pipeline {
                     sh '''
                         ssh -i "$SSH_KEY" \
                             -o StrictHostKeyChecking=accept-new \
-                            -o ConnectTimeout=10 \
-                            "$SSH_USER@13.201.134.22" \
-                            "echo EC2 SSH connection successful"
+                            -o ConnectTimeout=15 \
+                            "$SSH_USER@13.201.134.22" '
+                                set -e
+                                cd /home/ubuntu/employee-management-3tier
+                                docker compose pull backend frontend
+                                docker compose up -d backend frontend
+                                docker compose ps
+                            '
                     '''
                 }
             }
@@ -103,7 +108,7 @@ pipeline {
 
     post {
         success {
-            echo 'CI pipeline, Docker Hub push and EC2 SSH test completed!'
+            echo 'CI/CD pipeline completed: build, Docker Hub push and EC2 deployment successful!'
         }
 
         failure {
