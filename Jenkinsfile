@@ -79,11 +79,31 @@ pipeline {
                 }
             }
         }
+
+        stage('Test EC2 SSH') {
+            steps {
+                withCredentials([
+                    sshUserPrivateKey(
+                        credentialsId: 'ec2-ssh-key',
+                        keyFileVariable: 'SSH_KEY',
+                        usernameVariable: 'SSH_USER'
+                    )
+                ]) {
+                    sh '''
+                        ssh -i "$SSH_KEY" \
+                            -o StrictHostKeyChecking=accept-new \
+                            -o ConnectTimeout=10 \
+                            "$SSH_USER@13.201.134.22" \
+                            "echo EC2 SSH connection successful"
+                    '''
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'CI pipeline and Docker Hub push completed successfully!'
+            echo 'CI pipeline, Docker Hub push and EC2 SSH test completed!'
         }
 
         failure {
