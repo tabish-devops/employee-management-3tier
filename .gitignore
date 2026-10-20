@@ -16,3 +16,16 @@ coverage/
 # OS files
 .DS_Store
 Thumbs.db
+# Terraform generated files
+.terraform/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+# Credentials and private keys
+*.pem
+# Local monitoring data
+employee-monitoring/prometheus/data/
+employee-monitoring/grafana/data/

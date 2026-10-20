@@ -1,0 +1,2 @@
+﻿# Replace this reserved example IP with your actual public IP/32 before use.
+ssh_allowed_cidr = "203.0.113.10/32"
