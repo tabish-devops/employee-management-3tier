@@ -172,7 +172,7 @@ Live EC2 metrics require the instance to be running and the SSH tunnel to be con
 ![Website](docs/screenshots/website.png)
 
 ### Jenkins CI/CD Pipeline
-![Jenkins Pipeline](docs/screenshots/jenkins-pipeline.png)
+![Jenkins Pipeline](docs/screenshots/Jenkins-pipeline.png)
 
 ### AWS EC2 Deployment
 ![AWS EC2](docs/screenshots/aws-ec2.png)
