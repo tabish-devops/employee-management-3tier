@@ -1,160 +1,184 @@
-# Employee Management System
+# Employee Management System | Cloud & DevOps Project
 
-A full-stack Employee Management System built using React.js, Node.js, Express.js, and PostgreSQL. This project demonstrates frontend development, REST API integration, database connectivity, and CRUD operations.
+## About the Project
 
-## Project Overview
+The Employee Management System is a full-stack web application built using React.js, Node.js, Express.js, and PostgreSQL. I developed this project to practise application development and learn how to deploy, automate, and monitor a web application using Cloud and DevOps tools.
 
-The Employee Management System allows users to manage employee records through a web-based dashboard. It connects a React frontend to a Node.js and Express backend API, with PostgreSQL used for persistent data storage.
-
-This project is being developed as a cloud computing and DevOps portfolio project, with plans to add Docker, Jenkins CI/CD, and AWS deployment.
+The project includes Docker-based containerization, a Jenkins CI/CD workflow, AWS EC2 deployment, Terraform infrastructure configuration, and Prometheus/Grafana monitoring.
 
 ## Features
 
-- Add new employees
-- View employee records
-- Update employee details
-- Delete employee records
-- Search and filter employees
-- Store employee data in PostgreSQL
-- REST API integration between frontend and backend
+- Add, view, update, and delete employee records.
+- Search and filter employee data.
+- REST API integration with PostgreSQL.
+- Docker containerization.
+- Jenkins CI/CD workflow integrated with GitHub.
+- AWS EC2 deployment on Ubuntu Linux.
+- Infrastructure configuration using Terraform.
+- Server CPU, memory, and disk monitoring using Prometheus and Grafana.
 
 ## Technology Stack
 
-| Component | Technology |
+| Category | Technologies |
 |---|---|
-| Frontend | React.js, Vite |
+| Frontend | React.js, Vite, JavaScript, CSS |
 | Backend | Node.js, Express.js |
 | Database | PostgreSQL |
-| Database Connectivity | node-postgres (`pg`) |
-| API | REST API |
-| Version Control | Git and GitHub |
+| Version Control | Git, GitHub |
+| Containerization | Docker, Docker Compose |
+| CI/CD | Jenkins |
+| Cloud Platform | AWS EC2 |
+| Infrastructure as Code | Terraform |
+| Monitoring | Prometheus, Node Exporter, Grafana |
+| Server Environment | Ubuntu Linux, Nginx |
 
-## Project Architecture
+## Architecture
+
+### Application Architecture
 
 ```text
-User
-  |
-  v
-React Frontend (Vite)
-  |
-  | HTTP Requests
-  v
-Node.js + Express REST API
-  |
-  | SQL Queries
-  v
-PostgreSQL Database
+             User / Browser
+                    |
+                    v
+             React Frontend
+                    |
+                 REST API
+                    |
+                    v
+           Node.js + Express
+                    |
+                    v
+             PostgreSQL DB
+```
+
+### DevOps Workflow
+
+```text
+GitHub → Jenkins → Docker → AWS EC2
+                              |
+                              v
+                     Deployed Application
+                              |
+                              v
+                  Node Exporter → Prometheus
+                                      |
+                                      v
+                                    Grafana
 ```
 
 ## Project Structure
 
 ```text
 employee-management-3tier/
-├── frontend/          # React application
-├── backend/           # Express REST API
+├── frontend/
+├── backend/
 ├── database/
-│   └── schema.sql     # Database table definition
+├── employee-monitoring/
+│   ├── docker-compose.yml
+│   ├── prometheus/
+│   │   └── prometheus.yml
+│   ├── grafana/
+│   │   └── ec2-monitoring.json
+│   └── README.md
+├── terraform/
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── terraform.tfvars.example
+│   └── .terraform.lock.hcl
 ├── .gitignore
 └── README.md
 ```
 
-## Prerequisites
+## Run Locally
 
-Install the following before running the project:
+### Prerequisites
 
-- Node.js and npm
-- PostgreSQL
-- Git
+Install Node.js, npm, PostgreSQL, and Git.
 
-## Database Setup
+Clone the repository:
 
-1. Open PostgreSQL and create a database named `employee_db`.
-
-2. Run the SQL script in `database/schema.sql` against the `employee_db` database to create the employees table.
-
-Example using PowerShell:
-
-```powershell
-& "C:\Program Files\PostgreSQL\17\bin\psql.exe" -h 127.0.0.1 -U postgres -d employee_db -f database/schema.sql
+```bash
+git clone https://github.com/tabish-devops/employee-management-3tier.git
+cd employee-management-3tier
 ```
 
-Adjust the PostgreSQL installation path if your version is different.
+### Database Setup
 
-## Backend Setup
+Create a PostgreSQL database named `employee_db` and execute `database/schema.sql`.
 
-Open a terminal in the project root and run:
+### Backend
 
-```powershell
+```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file inside the `backend` folder with your own local database settings:
+Configure the required local database settings in a `.env` file according to the backend configuration. Keep credentials private.
 
-```env
-PORT=5000
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=your_local_postgres_password
-DB_NAME=employee_db
-```
+Start the backend using its configured start command.
 
-Replace the placeholder with your own PostgreSQL password. Do not commit your `.env` file to GitHub.
-
-Start the backend:
-
-```powershell
-node server.js
-```
-
-The API should be available at:
-
-`http://localhost:5000`
-
-## Frontend Setup
+### Frontend
 
 Open another terminal:
 
-```powershell
+```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite, usually:
+Open the local URL displayed by Vite, usually `http://localhost:5173`.
 
-`http://localhost:5173`
+## Docker and Jenkins CI/CD
 
-Keep both the frontend and backend terminals running while using the application.
+Docker is used to containerize application services. Jenkins is used to practise automating the build and deployment workflow, with GitHub as the source-code repository.
 
-## API Endpoints
+Depending on the pipeline configuration, the workflow can include source checkout, Docker image builds, and deployment to AWS EC2.
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/employees` | Retrieve all employees |
-| GET | `/api/employees/:id` | Retrieve one employee |
-| POST | `/api/employees` | Add an employee |
-| PUT | `/api/employees/:id` | Update an employee |
-| DELETE | `/api/employees/:id` | Delete an employee |
+## AWS and Terraform
 
-## Learning Objectives
+The application has been deployed on AWS EC2 running Ubuntu Linux.
 
-- Build a full-stack web application
-- Connect a React frontend to a REST API
-- Implement CRUD operations using Express.js
-- Connect a backend application to PostgreSQL
-- Use Git and GitHub for version control
-- Learn the foundations for containerization and CI/CD
+The Terraform configuration defines an EC2 instance, its security group, and related outputs. SSH access is restricted through a configurable CIDR variable, while HTTP access is configured for the website.
 
-## Future Enhancements
+Review Terraform plans before applying infrastructure changes, as AWS resources may incur charges.
 
-- Docker containerization
-- Docker Compose for application services
-- Jenkins CI/CD pipeline
-- Automated build and testing
-- AWS deployment
-- Cloud networking and security configuration
+## Monitoring with Prometheus and Grafana
+
+Prometheus and Grafana run locally using Docker Compose. Node Exporter exposes operating-system metrics from the EC2 instance through an SSH tunnel.
+
+The Grafana dashboard displays:
+
+- **CPU Usage:** Processor utilization.
+- **Memory Usage:** RAM utilization.
+- **Disk Usage:** Root filesystem utilization.
+
+Start the monitoring services from the monitoring directory:
+
+```bash
+docker compose up -d
+```
+
+Access the dashboards:
+
+- Prometheus: `http://localhost:9090`
+- Grafana: `http://localhost:3000`
+
+Live EC2 metrics require the instance to be running and the SSH tunnel to be connected. Node Exporter port `9100` should not be exposed publicly.
+
+## Screenshots
+
+Screenshots of the application, Jenkins pipeline, AWS deployment, and Grafana monitoring dashboard will be added here.
+
+## What I Learned
+
+- Full-stack application development and CRUD operations.
+- REST API and PostgreSQL integration.
+- Git and GitHub version control.
+- Docker containerization and Jenkins CI/CD concepts.
+- AWS EC2 deployment and Linux server administration.
+- Terraform infrastructure as code.
+- Prometheus metrics collection and Grafana visualization.
 
 ## Author
 
@@ -162,4 +186,6 @@ Keep both the frontend and backend terminals running while using the application
 
 GitHub: [tabish-devops](https://github.com/tabish-devops)
 
-This is a learning and portfolio project. Features and deployment configuration may evolve as development continues.
+Repository: [Employee Management System – 3-Tier](https://github.com/tabish-devops/employee-management-3tier)
+
+This project is part of my Cloud Computing and DevOps learning portfolio.
