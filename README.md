@@ -166,9 +166,19 @@ Access the dashboards:
 
 Live EC2 metrics require the instance to be running and the SSH tunnel to be connected. Node Exporter port `9100` should not be exposed publicly.
 
-## Screenshots
+## Project Screenshots
 
-Screenshots of the application, Jenkins pipeline, AWS deployment, and Grafana monitoring dashboard will be added here.
+### Employee Management Website
+![Website](docs/screenshots/website.png)
+
+### Jenkins CI/CD Pipeline
+![Jenkins Pipeline](docs/screenshots/jenkins-pipeline.png)
+
+### AWS EC2 Deployment
+![AWS EC2](docs/screenshots/aws-ec2.png)
+
+### Grafana Monitoring Dashboard
+![Grafana Dashboard](docs/screenshots/grafana-dashboard.png)
 
 ## What I Learned
 
